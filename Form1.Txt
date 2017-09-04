@@ -1,0 +1,119 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+using System.IO;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Data.SqlClient;
+
+
+namespace ExportExcelMultipleWorkSheets
+{
+    public partial class ExportToExcelFrm : Form
+    {
+        public ExportToExcelFrm()
+        {
+            InitializeComponent();
+        }
+
+
+        private void ExportToExcelFrm_Load(object sender, EventArgs e)
+        {
+
+
+        }
+        private void ExportToExcelBtn_Click(object sender, EventArgs e)
+        {
+            DataSet ds = new DataSet();
+            GetDataSet dsObj = new GetDataSet();
+            ds = dsObj.CreateDataset();
+
+            bool returnedstatus =false;
+            System.Collections.ArrayList SheetObj;
+            System.Collections.ArrayList HdrObj;
+            System.Collections.ArrayList DetObj;
+
+            string FName = @"C:\AAA\bookSample112.xlsx";
+            Excel.Application excelApp = new Excel.Application();
+            Excel.Workbook excelWorkBook;
+            excelApp.Visible = false;
+            excelApp.DisplayAlerts = false;
+            excelWorkBook = excelApp.Workbooks.Add(Type.Missing);
+            excelWorkBook.SaveAs(FName);
+            excelWorkBook = excelApp.Workbooks.Open(FName);
+
+            for (int TblCtr = 0; TblCtr < ds.Tables.Count; TblCtr++)
+            {
+                SheetObj = new System.Collections.ArrayList();
+                ds.Tables[TblCtr].TableName = "FIRSTTIME-"+TblCtr.ToString();//if you want to change the sheet name
+                SheetObj.Add(ds.Tables[TblCtr].TableName);
+
+                HdrObj = new System.Collections.ArrayList();
+                for (int i = 1; i < ds.Tables[TblCtr].Columns.Count + 1; i++)
+                {
+                    HdrObj.Add(ds.Tables[TblCtr].Columns[i - 1].ColumnName);
+                }
+                DetObj = new System.Collections.ArrayList();
+                for (int i = 1; i < ds.Tables[TblCtr].Columns.Count + 1; i++)
+                {
+                    DetObj.Add(ds.Tables[TblCtr].Columns[i - 1].ColumnName);
+                }
+                returnedstatus = ExportDataSetToExcel(ds.Tables[TblCtr], FName, SheetObj, HdrObj, DetObj, excelApp, excelWorkBook);
+                SheetObj = null; HdrObj = null; DetObj = null;
+            }
+            excelWorkBook.Save();
+            excelWorkBook.Close();
+            excelApp.Quit();
+            excelApp = null;
+
+            if (returnedstatus) { MessageBox.Show("Success"); } else { MessageBox.Show("Failed!"); };
+            
+        }
+
+        private bool ExportDataSetToExcel(DataTable dt, string FName, 
+            System.Collections.ArrayList SheetObj, 
+            System.Collections.ArrayList HdrObj, System.Collections.ArrayList DetObj,
+            Excel.Application excelApp, Excel.Workbook excelWorkBook
+            )
+        {
+            foreach (string sheetName in SheetObj)
+            {
+                try
+                {
+                    Excel.Worksheet excelWorkSheet = excelWorkBook.Sheets.Add();
+                    excelWorkSheet.Name = sheetName;
+                    int HrdCtr = 1;
+                    foreach (var item in HdrObj)
+                    {
+                        excelWorkSheet.Cells[1, HrdCtr] = item;
+                        HrdCtr++;
+                    }
+                    int x = 2;
+                    for (int i = 0; i < dt.Rows.Count - 1; i++)
+                    {
+                        int colCtr = 1;
+                        foreach (string item in DetObj)
+                        {
+                            excelWorkSheet.Cells[x, colCtr] = dt.Rows[i][item].ToString();
+                            colCtr++;
+                        }
+                        x++;
+                    }
+                    excelApp.DisplayAlerts = false;
+                    excelApp.Visible = false;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+}

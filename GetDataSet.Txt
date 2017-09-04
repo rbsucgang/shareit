@@ -1,0 +1,84 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Data.SqlClient;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+
+namespace ExportExcelMultipleWorkSheets
+{
+    public class GetDataSet
+    {
+        //Create a DataSet with the existing DataTables
+        DataSet ds = new DataSet("Organization");
+        public DataSet CreateDataset()
+        {
+            //Create an Emplyee DataTable
+            DataTable employeeTable = new DataTable("Employee");
+            employeeTable.Columns.Add("Employee ID");
+            employeeTable.Columns.Add("Employee Name");
+            employeeTable.Rows.Add("1", "ABC");
+            employeeTable.Rows.Add("2", "DEF");
+            employeeTable.Rows.Add("3", "PQR");
+            employeeTable.Rows.Add("4", "XYZ");
+
+            //Create a Department Table
+            DataTable departmentTable = new DataTable("Department");
+            departmentTable.Columns.Add("Department ID");
+            departmentTable.Columns.Add("Department Name");
+            departmentTable.Rows.Add("1", "IT");
+            departmentTable.Rows.Add("2", "HR");
+            departmentTable.Rows.Add("3", "Finance");
+
+
+            //Create an Emplyee DataTable
+            DataTable Table1 = new DataTable("Student001");
+            Table1.Columns.Add("Student ID");
+            Table1.Columns.Add("Student Name");
+            for (int i = 0; i <= 200; i++)
+            {
+                Table1.Rows.Add(i.ToString(), "ABC-"+i.ToString());
+            }
+
+            DataTable Table2 = new DataTable("Student002");
+            Table2.Columns.Add("Student ID");
+            Table2.Columns.Add("Student Name");
+            for (int i = 0; i <= 200; i++)
+            {
+                Table2.Rows.Add(i.ToString(), "XXX-" + i.ToString());
+            }
+
+            DataTable Table3 = new DataTable("Student003");
+            Table3.Columns.Add("Student ID");
+            Table3.Columns.Add("Student Name");
+            for (int i = 0; i <= 200; i++)
+            {
+                Table3.Rows.Add(i.ToString(), "YYY-" + i.ToString());
+            }
+
+            DataTable Table4 = new DataTable("Student004");
+            Table4.Columns.Add("Student ID");
+            Table4.Columns.Add("Student Name");
+            for (int i = 0; i <= 200; i++)
+            {
+                Table4.Rows.Add(i.ToString(), "ZZZZ-" + i.ToString());
+            }
+
+
+            ds.Tables.Add(employeeTable);
+            ds.Tables.Add(departmentTable);
+            ds.Tables.Add(Table1);
+            ds.Tables.Add(Table2);
+            ds.Tables.Add(Table3);
+            ds.Tables.Add(Table4);
+
+            return ds;
+
+        }
+    }
+}
