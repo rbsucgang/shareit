@@ -1,0 +1,102 @@
+
+
+-----------------------------------------
+Begin Home Controller:
+-----------------------------------------
+  using System.Web.UI.WebControls;
+  using System.Text;
+
+  namespace regsys.clientapp.Controllers
+  {
+    public class HomeController : Controller
+    {
+
+
+        [HttpPost]
+        public FileResult CreateFile()
+        {
+           return Downloadxxx();
+        }
+
+
+        private FileResult Downloadxxx()
+        {
+            byte[] fileBytes = System.IO.File.ReadAllBytes(Server.MapPath("~/DataFiles/") + "test.xlsx");
+            string fileName = "test.xlsx";
+            //string file = HostingEnvironment.MapPath("~/App_Data/foo.xlsx");
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+        }
+
+
+
+        [HttpPost]
+        public FileResult Download()
+        {
+            byte[] fileBytes = System.IO.File.ReadAllBytes(Server.MapPath("~/DataFiles/") + "test.xlsx");
+            string fileName = "test.xlsx";
+            //string file = HostingEnvironment.MapPath("~/App_Data/foo.xlsx");
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+        }
+   }
+-----------------------------------------
+End Home Controller:
+-----------------------------------------
+
+***
+-----------------------------------------
+BEGIN INDEX.CSHTML
+-----------------------------------------
+
+h2>Index</h2>
+<div ng-app="appMain" ng-controller="appCtrl">
+    <div>
+        <div id="testdiv">
+            <br />
+            @using (Html.BeginForm("CreateFile", "Home", FormMethod.Post))
+            {
+                <input id="Button1" type="submit" value="Create/Download File"  />
+            }
+
+            <br /><br />
+            @using (Html.BeginForm("CreateFile", "Home", FormMethod.Post))
+            {
+                <button type="submit">Button 111</button>
+            }
+
+            @using (Html.BeginForm("Download", "Home", FormMethod.Post))
+            {
+                <button type="submit">Button 2</button>
+            }
+
+            @using (Html.BeginForm("Download3", "Home", FormMethod.Post))
+            {
+                <button type="submit">Button 3</button>
+            }
+
+        </div>
+    </div>
+  </div>
+-----------------------------------------
+END INDEX.CSHTML
+----------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
