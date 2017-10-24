@@ -1,0 +1,239 @@
+
+　
+　
+<div ng-app="mainApp" ng-controller="filter">
+    <br />
+    <div style="float:left; position:relative; padding-right: 100px;">
+        <div><input id="Button1" type="button" value="ARCHIVE" class="filterbutton" ng-click="showPopup()" /> </div>
+        <div><input id="Button1" type="button" value="EXPORT" class="filterbutton" /> </div>
+        <div><input id="Button1" type="button" value="RESET" class="filterbutton" /> </div>
+    </div>
+    <div>
+        <table data-ng-init="init()">
+            <thead>
+                <tr>
+                    <th> FILTER NAME </th>
+                    <th> FILTER DESCRIPTION </th>
+                    <th> FILTER NAME </th>
+                    <th> FILTER DESCRIPTION </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Rank</td>
+                    <td ng-init="test()">
+                        <select class="selectmedium" data-ng-options="o.Description for o in rankList" data-ng-model="ranks"></select>
+                        <select class="selectsmall" data-ng-options="o.display for o in compare1List" data-ng-model="compare1"></select>
+                    </td>
+
+                    <td>Zero Leaves Amount</td>
+                    <td>
+                        <select>
+                            <option value="test1"> test 1 </option>
+                            <option value="test1"> test 2 </option>
+                            <option value="test1"> test 3 </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Recommendation</td>
+                    <td>
+                        <select data-ng-options="o.Description for o in recommendationList" data-ng-model="recommendation"></select>
+                    </td>
+
+                    <td>Zero Overtime Amount</td>
+                    <td>
+                        <select>
+                            <option value="test1"> test 1 </option>
+                            <option value="test1"> test 2 </option>
+                            <option value="test1"> test 3 </option>
+                        </select>
+                    </td>
+
+                <tr>
+                    <td>Subsidiary</td>
+                    <td>
+                        <select  data-ng-options="o.Description for o in subsidiaryList" data-ng-model="subsidiary"></select>
+                    </td>
+
+                    <td>No Bonus Data</td>
+                    <td>
+                        <select>
+                            <option value="test1"> test 1 </option>
+                            <option value="test1"> test 2 </option>
+                            <option value="test1"> test 3 </option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Hired</td>
+                    <td>
+                        <input id="Text1" type="text" class="dateInput" />
+                        <select class="selectsmall" data-ng-options="o.display for o in compare2List" data-ng-model="compare2"></select>
+                        <input id="Text1" type="date" class="dateInput" />
+                    </td>
+                    <td>No Leaves Data</td>
+                    <td>
+                        <select>
+                            <option value="test1"> test 1 </option>
+                            <option value="test1"> test 2 </option>
+                            <option value="test1"> test 3 </option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Resigned</td>
+                    <td>
+                        <input id="Text1" type="date" class="dateInput" />
+                        <select class="selectsmall" data-ng-options="o.display for o in compare2List" data-ng-model="compare3"></select>
+                        <input id="Text1" type="date" class="dateInput" />
+                    </td>
+                    <td>No Overtime Data</td>
+                    <td>
+                        <select>
+                            <option value="test1"> test 1 </option>
+                            <option value="test1"> test 2 </option>
+                            <option value="test1"> test 3 </option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Zero Old Gross</td>
+                    <td>
+                        <select data-ng-options="o.Description for o in zerooldgrossList" data-ng-model="zerooldgross"></select>
+                    </td>
+
+                    <td>Compare Gross</td>
+                    <td>
+                        <select>
+                            <option value="test1"> test 1 </option>
+                            <option value="test1"> test 2 </option>
+                            <option value="test1"> test 3 </option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Zero Old Basic</td>
+                    <td>
+                        <select data-ng-options="o.Description for o in zerooldbasicList" data-ng-model="zerooldbasic"></select>
+                    </td>
+                    <td>Increase</td>
+                    <td>
+                        <select>
+                            <option value="test1"> test 1 </option>
+                            <option value="test1"> test 2 </option>
+                            <option value="test1"> test 3 </option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Zero New Gross</td>
+                    <td>
+                        <select data-ng-options="o.Description for o in zeronewgrossList" data-ng-model="zeronewdgross"></select>
+                    </td>
+
+                    <td>Employee Status List</td>
+                    <td>
+                        <select>
+                            <option value="test1"> test 1 </option>
+                            <option value="test1"> test 2 </option>
+                            <option value="test1"> test 3 </option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Zero New Basic</td>
+                    <td>
+                        <select data-ng-options="o.Description for o in zeronewbasicList" data-ng-model="zeronewdbasic"></select>
+                    </td>
+
+                    <td>Other</td>
+                    <td>
+                        <select>
+                            <option value="test1"> test 1 </option>
+                            <option value="test1"> test 2 </option>
+                            <option value="test1"> test 3 </option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Old Salary</td>
+                    <td>
+                        <select>
+                            <option value="test1"> test 1 </option>
+                            <option value="test1"> test 2 </option>
+                            <option value="test1"> test 3 </option>
+                        </select>
+                    </td>
+
+                    <td>Other 2</td>
+                    <td>
+                        <select>
+                            <option value="test1"> test 1 </option>
+                            <option value="test1"> test 2 </option>
+                            <option value="test1"> test 3 </option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>New Salary</td>
+                    <td>
+                        <select>
+                            <option value="test1"> test 1 </option>
+                            <option value="test1"> test 2 </option>
+                            <option value="test1"> test 3 </option>
+                        </select>
+                    </td>
+
+                    <td>Other 3</td>
+                    <td>
+                        <select>
+                            <option value="test1"> test 1 </option>
+                            <option value="test1"> test 2 </option>
+                            <option value="test1"> test 3 </option>
+                        </select>
+                    </td>
+                </tr>
+
+　
+                <tr>
+                    <td>Zero Bonus Amount</td>
+                    <td>
+                        <select>
+                            <option value="test1"> test 1 </option>
+                            <option value="test1"> test 2 </option>
+                            <option value="test1"> test 3 </option>
+                        </select>
+                    </td>
+
+                    <td></td>
+                    <td>
+                        <input id="Checkbox1" type="checkbox" /> Include Cut Gross
+                        <input id="Checkbox1" type="checkbox" /> Include New Gross
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+　
+<script src="~/Scripts/angularjs.1.6.4/Scripts/angular.min.js"></script>
+<script src="~/Scripts/CustomAngular/filter.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link href="~/Content/_tmpCss.css" rel="stylesheet" />
+@*<script type="text/javascript">
+        $(function () {
+            $("#datepicker").datepicker();
+        });
+</script>*@
+
+　
+　
