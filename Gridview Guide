@@ -24,5 +24,37 @@ protected void OnRowDataBound(object sender, System.Web.UI.WebControls.GridViewR
 protected void OnSelectedIndexChanged(object sender, EventArgs e){    foreach (GridViewRow row in GridView1.Rows)    {        if (row.RowIndex == GridView1.SelectedIndex)        {            row.BackColor = ColorTranslator.FromHtml("#A1DCF2");            row.ToolTip = string.Empty;        }        else        {            row.BackColor = ColorTranslator.FromHtml("#FFFFFF");            row.ToolTip = "Click to select this row.";        }    }}
 
 
+GET VALUE
+        protected void OnSelectedIndexChanged(object sender, EventArgs e)
+
+        {
+
+            foreach (GridViewRow row in GridView1.Rows)
+
+            {
+
+                if (row.RowIndex == GridView1.SelectedIndex)
+
+                {
+                    //row.BackColor = ColorTranslator.FromHtml("#A1DCF2");
+                    //row.ToolTip = string.Empty;
+                    this.Label1.Text = row.Cells[0].Text;
+                    this.Label2.Text = row.Cells[1].Text;
+                }
+
+                else
+
+                {
+                    //row.BackColor = ColorTranslator.FromHtml("#FFFFFF");
+                       //row.ToolTip = "Click to select this row.";
+
+　
+　
+                }
+
+            }
+
+        }
+        
 
 
