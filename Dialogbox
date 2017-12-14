@@ -1,0 +1,348 @@
+  *** JS SCRIPT START
+  
+  
+
+
+function overlay() {
+    el = document.getElementById("overlay");
+    el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+}
+
+function overlay2() {
+    el = document.getElementById("overlay2");
+    el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+}
+
+
+function ClickMe() {
+    alert('xxx');
+    PageMethods.ServerSideFunction("test",OnSuccessCallback, OnFailureCallback);
+
+    //$.ajax({
+    //    type: "POST",
+    //    url: "default.aspx/ServerSideFunction",
+    //    contentType: "application/json; charset=utf-8",
+    //    dataType: "json",
+    //    success: function (response) {
+    //        alert(response.d);
+    //    },
+    //    failure: function (response) {
+    //        alert("Error");
+    //    }
+    //});
+
+}
+
+
+function rowno(rowindex) {
+    // PageMethods.ServerSideFunction();
+
+    //$("#BtnServerSide").click();
+    //var i, CellValue, Row, td;
+    //i = parseInt(rowindex) + 1;
+
+    //var table = document.getElementById('#lnkCheck');
+
+    //Row = table.rows[i];
+    //td = Row.cells[1];
+
+    //CellValue = td.children[0].attributes[0].value;
+    //alert(CellValue);
+
+    return false;
+}
+
+
+
+function CallMethod() {
+    PageMethods.ToUpper("test", OnSuccessCallback, OnFailureCallback);
+}
+
+
+function OnSuccessCallback(res) {
+    alert(res);
+}
+
+function OnFailureCallback() {
+    alert('Error');
+}
+
+
+//function OnSuccessCallback(res) {
+//    alert(res);
+//}
+
+//function OnFailureCallback() {
+//    alert('Error');
+//}
+
+
+  
+  ** JS SCRIPT END
+  
+  ** C# DEFAULT.ASPX START **
+<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" EnableEventValidation="false"
+    AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="GridViewTest._Default" %>
+
+
+
+
+<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    <script type="text/javascript" src="Scripts/myscript.js"></script>
+    <link href="Content/Site.css" rel="stylesheet" />
+
+    <%--  <input id="TxtBox" type="text" />--%>
+
+    <div style="padding-top: 150px;">
+        <a href='#' onclick='overlay()'>Click here to show the overlay</a>
+    </div>
+
+    <div id="overlay">
+        <div>
+
+            <a href='#' onclick='overlay2()'>SHOW ANOTHER OVERLAY</a>
+
+            <asp:Button ID="Button2" runat="server" OnClick="BtnServerSide_Click" Text="POSTBACK CALL" />
+            <asp:ScriptManager runat="server" EnablePageMethods="true">
+            </asp:ScriptManager>
+            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                <ContentTemplate>
+                    <%--<asp:Button ID="btn" onclick="ClickMe();return false;" runat="server"></asp:Button>--%>
+                    <%-- <asp:Button ID="BtnServerSide" runat="server" Text="POSTBACK CALL" />--%>
+                    <%-- <asp:Button ID="BtnServerSide" runat="server" OnClick="BtnServerSide_Click" Text="POSTBACK CALL Inside update panel" />
+                    <input id="Button1" type="button" onclick="ClickMe();" value="button" />--%>
+
+                    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" GridLines="None">
+                        <AlternatingRowStyle BackColor="White" />
+                        <Columns>
+                            <asp:BoundField DataField="ID" HeaderText="ID" />
+                            <asp:TemplateField HeaderText="NAME">
+                                <EditItemTemplate>
+                                    <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("NAME") %>'></asp:TextBox>
+                                </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("NAME") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:BoundField DataField="COUNTRY" HeaderText="COUNTRY" />
+                        </Columns>
+                        <FooterStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
+                        <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
+                        <PagerStyle BackColor="#FFCC66" ForeColor="#333333" HorizontalAlign="Center" />
+                        <RowStyle BackColor="#FFFBD6" ForeColor="#333333" />
+                        <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="Navy" />
+                        <SortedAscendingCellStyle BackColor="#FDF5AC" />
+                        <SortedAscendingHeaderStyle BackColor="#4D0000" />
+                        <SortedDescendingCellStyle BackColor="#FCF6C0" />
+                        <SortedDescendingHeaderStyle BackColor="#820000" />
+                    </asp:GridView>
+                </ContentTemplate>
+
+                <%--          <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="BtnServerSide" EventName="Click" />
+                </Triggers>--%>
+            </asp:UpdatePanel>
+
+        </div>
+        Click here to [<a href='#' onclick='overlay()'>close</a>]
+    </div>
+
+
+    <div id="overlay2" style="padding-top:10px; border:solid; border-bottom-color:yellow; width:100px; height:100px;" >
+        <div style="top:200px; padding-top: 10px; padding-left: 10px; border:solid;">
+            HELLO WORLD
+        </div>
+            <div>
+                 Click here to [<a href='#' onclick='overlay2()'>close</a>]
+            </div>
+
+          
+    </div>
+
+</asp:Content>
+
+** CSS START **
+
+body {
+     height:100%;
+     margin:0;
+     padding:0;
+}
+
+#overlay {
+     visibility: hidden;
+     position: absolute;
+     left: 0px;
+     top: 0px;
+     width:90%;
+     height:100%;
+     text-align:center;
+     z-index: 1000;
+}
+
+#overlay div {
+     width:300px;
+     margin: 50px auto;
+     background-color: #fff;
+     border:1px solid #000;
+     padding:2px;
+     padding-right: 5px;
+     text-align:center;
+}
+
+#overlay2{
+     visibility: hidden;
+     position: absolute;
+     left: 0px;
+     top: 0px;
+     width:90%;
+     height:100%;
+     text-align:center;
+     z-index: 1000;
+}
+
+#overlay2 div {
+     width:300px;
+     margin: 50px auto;
+     background-color: #fff;
+     border:1px solid #000;
+     padding:2px;
+     padding-right: 5px;
+     text-align:center;
+}
+
+** CSS END
+  ** C# DEFAULT.ASPX END **
+  
+  *** C# CODE BEHIND START ** 
+  using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+    
+using System.Data.SqlClient;
+using System.Data;
+using System.Drawing;
+
+using System.Web.Services;
+
+namespace GridViewTest
+{
+    public partial class _Default : Page
+    {
+
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+            if (!this.IsPostBack)
+
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.AddRange(new DataColumn[3] { new DataColumn("Id"), new DataColumn("Name"), new DataColumn("Country") });
+                dt.Rows.Add(1, "John Hammond", "United States");
+                dt.Rows.Add(2, "Mudassar Khan", "India");
+                dt.Rows.Add(3, "Suzanne Mathews", "France");
+                dt.Rows.Add(4, "Robert Schidner", "Russia");
+                GridView1.DataSource = dt;
+                GridView1.DataBind();
+            }
+        }
+
+
+        #region DAL
+        SqlParameter[] sqlParam;
+        public DataTable GetSchoolAttended(long PersonID)
+        {
+            DataSet ds = new DataSet();
+            //try
+            //{
+            //    regsys.dal.DataAccess dObj = new regsys.dal.DataAccess();
+            //    Array.Resize(ref sqlParam, 1);
+            //    sqlParam[0] = new SqlParameter("@PERSONID", SqlDbType.BigInt, 8, ParameterDirection.Input,
+            //                                            false, 0, 0, "", DataRowVersion.Current, PersonID);
+            //    ds = dObj.ReturnDataSet("uspQ0026", sqlParam);
+            //}
+            //catch (Exception ex)
+            //{
+            //    return null;
+            //}
+            return ds.Tables[0];
+        }
+
+
+
+
+        #endregion
+
+
+        [WebMethod]
+        public static string ServerSideFunction(string  test)
+        {
+            return "RUEL SUCGANG";
+        }
+        
+
+
+        protected void Ruel(object sender, EventArgs e) 
+        {
+            string a = "";
+        }
+
+        protected void BtnServerSide_Click(object sender, EventArgs e)
+        {
+            string a = "";
+        }
+
+
+
+        //protected void OnSelectedIndexChanged(object sender, EventArgs e)
+
+        //{
+
+        //    foreach (GridViewRow row in GridView1.Rows)
+
+        //    {
+
+        //        if (row.RowIndex == GridView1.SelectedIndex)
+
+        //        {
+        //            //row.BackColor = ColorTranslator.FromHtml("#A1DCF2");
+        //            //row.ToolTip = string.Empty;
+        //            this.Label1.Text = row.Cells[0].Text;
+        //            this.Label2.Text = row.Cells[1].Text;
+        //        }
+
+        //        else
+
+        //        {
+        //            //row.BackColor = ColorTranslator.FromHtml("#FFFFFF");
+        //               //row.ToolTip = "Click to select this row.";
+
+
+
+        //        }
+
+        //    }
+
+        //}
+
+        //protected void OnRowDataBound(object sender, System.Web.UI.WebControls.GridViewRowEventArgs e)
+        //{
+        //    if (e.Row.RowType == DataControlRowType.DataRow)
+
+        //    {
+        //        e.Row.Attributes["onclick"] = Page.ClientScript.GetPostBackClientHyperlink(GridView1, "Select$" + e.Row.RowIndex);
+        //        e.Row.ToolTip = "Click to select this row.";
+        //    }
+
+        //}
+
+    }
+}
+  *** C# CODE BEHIND END **
+  
+  
