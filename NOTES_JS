@@ -1,0 +1,463 @@
+******************************************
+********************************************
+SITE.MASTER - STARTS
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="JavaScriptRefresher.SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - JS REFRESH APP</title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    
+   <%-- <script src="Scripts/jquery-1.10.2.min.js"></script>--%>
+    <link href="Content/CommonStyle.css" rel="stylesheet" />
+    <script src="Scripts/CommonJsScript.js"></script>
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server" EnablePageMethods="true">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                <%--Framework Scripts--%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="respond" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+                <%--Site Scripts--%>
+            </Scripts>
+        </asp:ScriptManager>
+
+<%--        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" runat="server" href="~/">JS REFRESH APP</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a runat="server" href="~/">Home</a></li>
+                        <li><a runat="server" href="~/About">About</a></li>
+                        <li><a runat="server" href="~/Contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>--%>
+        <div class="container body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+          <%--  <hr />--%>
+            <footer>
+           <%--     <p>&copy; <%: DateTime.Now.Year %> - My ASP.NET Application</p>--%>
+            </footer>
+        </div>
+
+    </form>
+</body>
+</html>
+
+SITE.MASTER - ENDS
+
+
+******************************************
+********************************************
+DEFAULT.CS - STARTS
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+
+using System.Data.SqlClient;
+using System.Data;
+using System.Drawing;
+
+using System.Web.Services;
+
+
+namespace JavaScriptRefresher
+{
+    public partial class _Default : Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                //this.HiddenField1.Value = "ssss";
+                RefreshGrid();
+                RefreshDropdown();
+            }
+        }
+
+
+
+
+        protected void SomeCommand(object sender, EventArgs e)
+        {
+            RefreshDropdown();
+        }
+
+
+
+        private void RefreshGrid()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.AddRange(new DataColumn[5] { new DataColumn("Id"), new DataColumn("FirstName"), new DataColumn("LastName"), new DataColumn("Salary"), new DataColumn("CivilStatus") });
+            dt.Rows.Add(1, "John", "Porontong", 1000.99, "Married");
+            dt.Rows.Add(2, "Ruel", "Sucgang", 200.11, "Married");
+            dt.Rows.Add(3, "Ruby", "Sucgang", 8989, "Single");
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+        }
+
+        private void RefreshDropdown()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.AddRange(new DataColumn[2] { new DataColumn("CivilStatusID"), new DataColumn("CivilStatus") });
+            dt.Rows.Add(0, "Select One");
+            dt.Rows.Add(1, "Single");
+            dt.Rows.Add(2, "Married");
+            dt.Rows.Add(3, "Head of the Family");
+            dt.Rows.Add(4, "Widow");
+            this.CboCivilStatus.DataSource = dt;
+            this.CboCivilStatus.DataValueField = "CivilStatusID";
+            this.CboCivilStatus.DataTextField = "CivilStatus";
+            this.CboCivilStatus.DataBind();
+        }
+
+        protected void BtnSave_Click(object sender, EventArgs e)
+        {
+            TxtValue.Text = this.HiddenField1.Value;
+            //Label1.Text = this.CboCivilStatus.SelectedValue;
+            Label1.Text = this.CboCivilStatus.SelectedItem.Text  ;
+
+        }
+
+
+        protected void BtnCancel_Click(object sender, EventArgs e)
+        {
+
+            Response.Write("Button cancel clicked!");
+        }
+
+
+        [WebMethod]
+        public static string MyMethod()
+        {
+            return "Yey!";
+        }
+
+        //public static string MyMethod(string param)
+        //{
+        //    return "Yey!";
+        //}
+
+
+        string empname = "";
+        #region "Hover Grid"
+        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+               // Label1.Text = e.Row.Cells[0].Text;
+                //e.Row.Cells[0].Attributes.Add("onClick", "alert('" + e.Row.Cells[1].Text + " Clicked');");
+                //e.Row.Cells[0].Attributes.Add("onClick", "SayHi('" + e.Row.Cells[1].Text + "');");
+                //e.Row.Cells[0].Attributes.Add("onClick", "SayHello('" + e.Row.Cells[1].Text + "');");
+                e.Row.Cells[0].Attributes.Add("onClick", "CallJSAjax('" + e.Row.Cells[1].Text + "');");
+            }
+
+        }
+        #endregion
+
+        protected void CboCivilStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
+DEFAULT.CS - ENDS
+
+********************************************
+******************************************
+DEFAULT.ASPX - STARTS
+<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="JavaScriptRefresher._Default" %>
+<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+        <ContentTemplate>
+            <asp:HiddenField
+                ID="HiddenField1"
+                runat="server" Value="Test Value lang"
+                ClientIDMode="Static" />
+
+            <asp:HiddenField
+                ID="HiddenField2"
+                runat="server" Value="for drop down list ito"
+                ClientIDMode="Static" />
+
+
+            <input id="Hidden1" type="hidden" />
+
+            <%-- <input id="Hidden1" type="hidden" />--%>
+            <div class="DivTop" style="font-weight: bold;">
+                List of Employees
+                </br>
+                <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+            </div>
+
+            <div class="DivNextRow">
+                <div class="DivFloatLeft">
+                    First Name:
+                </div>
+                <div class="DivFloatLeft">
+                    <input id="firstname" type="text" />
+                </div>
+                <div class="SearchButton">
+                    <input id="Button1" type="button" value="Search Name" />
+                </div>
+
+            </div>
+
+            <div class="DivNextRow">
+                <div class="DivFloatLeft">
+                    Last Name:
+                </div>
+                <div class="DivFloatLeft">
+                    <input id="lastname" type="text" />
+                </div>
+            </div>
+
+            <div class="DivNextRow">
+                <div class="DivFloatLeft">
+                    Salary:
+                </div>
+                <div class="DivFloatLeft">
+                    <input id="salary" type="text" />
+                </div>
+            </div>
+
+
+
+            <a href='#' onclick='overlay()'>Click here to show the overlay</a>
+            <div>
+            </div>
+
+            <div style="clear: both; padding-top: 20px; padding-left: 77px;">
+
+
+                <asp:Button CssClass="Buttons" ID="BtnCancel" runat="server" Text="Cancel"
+                    OnClientClick="return confirm('Are you sure you want to cancel?');"
+                    OnClick="BtnCancel_Click" />
+
+                <div style="margin-top: 100px;">
+                    <asp:TextBox ID="TxtValue" runat="server"></asp:TextBox>
+                </div>
+            </div>
+
+
+            <div id="overlay">
+
+                <div>
+                    <asp:DropDownList ID="CboCivilStatus" class="CboProperties"
+                        runat="server">
+                    </asp:DropDownList>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <asp:GridView ID="GridView1"
+                        Style="margin-top: 20px; width: 100%; height: 100%;"
+                        RowStyle-CssClass="GvGrid" runat="server" OnRowDataBound="GridView1_RowDataBound"
+                        AutoGenerateColumns="false" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3">
+                        <Columns>
+                            <asp:TemplateField HeaderText="Employee ID">
+
+                                <EditItemTemplate>
+                                    <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("ID") %>'></asp:TextBox>
+                                </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label ID="LblGridEmployeeID" runat="server" Text='<%# Bind("ID") %>'></asp:Label>
+
+                                    <%--<asp:LinkButton ID="LinkButton1" runat="server"  OnClientClick="CallJSAjax('XX Name')" Text='<%# Bind("ID") %>'></asp:LinkButton>--%>
+                                </ItemTemplate>
+
+                            </asp:TemplateField>
+
+                            <asp:BoundField DataField="FirstName" HeaderText="First Name" />
+                            <asp:BoundField DataField="LastName" HeaderText="Last Name" />
+                            <asp:BoundField DataField="Salary" HeaderText="Salary" />
+                            <asp:BoundField DataField="CivilStatus" HeaderText="Civil Status" />
+
+                        </Columns>
+
+                        <FooterStyle BackColor="White" ForeColor="#000066" />
+                        <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />
+                        <PagerStyle BackColor="White" ForeColor="#000066" HorizontalAlign="Left" />
+                        <RowStyle ForeColor="#000066" />
+                        <SelectedRowStyle BackColor="#669999" Font-Bold="True" ForeColor="White" />
+                        <SortedAscendingCellStyle BackColor="#F1F1F1" />
+                        <SortedAscendingHeaderStyle BackColor="#007DBB" />
+                        <SortedDescendingCellStyle BackColor="#CAC9C9" />
+                        <SortedDescendingHeaderStyle BackColor="#00547E" />
+
+                    </asp:GridView>
+
+                    Click here to [<a href='#' onclick='overlay()'>close</a>]
+                    
+                    <asp:Button CssClass="Buttons" ID="BtnSave"
+                        runat="server"
+                        Text="Get Value" OnClick="BtnSave_Click" />
+                </div>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+</asp:Content>
+DEFAULT.ASPX - ENDS
+
+********************************************
+******************************************
+JS SCRIPT - STARTS
+function CallJSAjax(selectedName)
+{
+    document.getElementById('HiddenField1').value = selectedName;
+    var temp = document.getElementById('HiddenField1').value;
+    alert(temp);
+
+    //this is working....
+    //document.getElementById('HiddenField1').value = selectedName;
+    //alert(document.getElementById('HiddenField1').value);
+    //this is working....
+   
+}
+
+function GetSelectedDDValue()
+{
+
+}
+
+function OnSuccess(response) {
+    alert('success');
+}
+
+function SayHi(selectedName) {
+    alert(selectedName);
+};
+
+
+
+function overlay() {
+    el = document.getElementById("overlay");
+    el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+}
+
+function overlay2() {
+    el = document.getElementById("overlay2");
+    el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+}
+JS SCRIPT  - ENDS
+
+********************************************
+*******************************************
+CSS - STARTS
+
+
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#overlay {
+    visibility: hidden;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 90%;
+    height: 100%;
+    text-align: center;
+    z-index: 1000;
+}
+
+    #overlay div {
+        width: 500px;
+        margin: 50px auto;
+        background-color: #fff;
+        border: 1px solid #000;
+        padding: 2px;
+        padding-right: 5px;
+        text-align: center;
+    }
+
+.GvGrid:hover {
+    background-color: #FFEB9C;
+    border-top: solid;
+    color: #9C6500;
+    cursor: pointer;
+}
+
+
+
+.DivTop {
+    padding-top: 100px;
+}
+
+.DivFloatLeft {
+    width: 90px;
+    padding-top: 10px;
+    /*padding-left:5px;*/
+    float: left;
+}
+
+.DivNextRow {
+    float: none;
+    clear: both;
+}
+
+.DivFinder {
+    float: left;
+}
+
+.CboProperties {
+    margin-top: 10px;
+    margin-left: 90px;
+    width: 160px;
+}
+
+.Buttons {
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 100px;
+}
+
+.SearchButton {
+    width: 90px;
+    padding-top: 10px;
+    padding-left: 80px;
+    float: left;
+}
+
+CSS  - ENDS
+******************************************
+
