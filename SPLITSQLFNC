@@ -1,0 +1,22 @@
+Declare @string varchar(200) = '123,45678,9111,2223,33,8891'  
+Declare @individual varchar(20) = null
+WHILE LEN(@string) > 0
+BEGIN
+    IF PATINDEX('%,%', @string) > 0
+    BEGIN
+        SET @individual = SUBSTRING(@string,
+                                    0,
+                                    PATINDEX('%,%', @string))
+        SET @string = SUBSTRING(@string,
+                                  LEN(@individual + ',') + 1,
+                                  LEN(@string))
+        insert into #DCO (codes) values (@individual)                                  
+    END
+    ELSE
+    BEGIN
+        SET @individual = @string
+        SET @string = NULL
+    END
+END
+select * from #DCO
+drop table #DCO
